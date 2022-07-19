@@ -33,9 +33,22 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const accountA = {
   owner: 'Gbenga Showunmi',
-  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  movements: [200, 4500, -400, 3000, -650, -130, 7000, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:31:42.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT',
 };
 
 const accountB = {
@@ -47,14 +60,27 @@ const accountB = {
 
 const accountC = {
   owner: 'Yinka Showunmi',
-  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  movements: [2000, -200, 3400, -300, -20, 5000, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:31:42.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT',
 };
 
 const accountD = {
   owner: 'Razaq Showunmi',
-  movements: [430, 1000, 700, 50, 90],
+  movements: [430, 10000, 7000, 50, 90],
   interestRate: 1,
   pin: 4444,
 };
@@ -70,13 +96,6 @@ const username = accs => {
 
 username(accounts);
 
-// console.log(
-//   accountA.username,
-//   accountB.username,
-//   accountC.username,
-//   accountD.username
-// );
-
 /////////////////////////////////////////////////
 // LOGIC
 
@@ -87,20 +106,34 @@ username(accounts);
 // ]);
 
 ///////////DISPLAY MOVEMENTS/////////////
-const displayMovements = movements => {
-  movements.forEach(function (mov, i) {
+const displayMovements = function (account, sort = false) {
+  const movs = sort
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
+
+  movs.forEach(function (mov, i) {
     const transactionType = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const formattedMov = new Intl.NumberFormat('en-US').format(mov.toFixed(4));
+    const date = new Date(account.movementsDates[i]);
+
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+
+    const displayDate = `${day}/${month}/${year}`;
     const html = `
   <div class="movements__row">
-  <div class="movements__type          movements__type--${transactionType}">${
+  <div class="movements__type         movements__type--${transactionType}">${
       i + 1
     } ${transactionType}</div>
-     <div class="movements__date">3 days ago</div>
-    <div class="movements__value">${mov}</div>
+     <div class="movements__date">${displayDate}</div>
+    <div class="movements__value">₦${formattedMov}</div>
 </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
+
 ////////////////////////////////////
 // console.log(accountA.movements);
 
@@ -114,7 +147,9 @@ const displaySummary = function (account) {
     .reduce(function (acc, mov) {
       return acc + mov;
     }, 0);
-  labelSumIn.textContent = `₦${incomes}`;
+
+  const formattedIncome = new Intl.NumberFormat('en-US').format(incomes);
+  labelSumIn.textContent = `₦${formattedIncome}`;
   ///out calculation
   const out = account.movements
     .filter(function (mov) {
@@ -123,7 +158,10 @@ const displaySummary = function (account) {
     .reduce(function (acc, mov) {
       return acc + mov;
     }, 0);
-  labelSumOut.textContent = `₦${Math.abs(out)}`;
+
+  const outAbs = Math.abs(out);
+  const formattedOut = new Intl.NumberFormat('en-US').format(outAbs);
+  labelSumOut.textContent = `₦${formattedOut}`;
 
   //////interest calculation
   const interest = account.movements
@@ -149,15 +187,19 @@ const displayBalance = function (account) {
   account.balance = account.movements.reduce(function (acc, mov) {
     return acc + mov;
   }, 0);
-
+  const formattedBalance = new Intl.NumberFormat('en-US').format(
+    account.balance
+  );
   // console.log(balance);
-  labelBalance.textContent = `₦${account.balance}`;
+  labelBalance.textContent = `₦${formattedBalance}`;
 };
 ////////////LOGIN ACTION//////////////////
 let currentAccount;
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
+  inputCloseUsername.value = inputClosePin.value = '';
+
   currentAccount = accounts.find(function (acc) {
     return acc.username === inputLoginUsername.value;
   });
@@ -167,7 +209,7 @@ btnLogin.addEventListener('click', function (e) {
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     // console.log('LOGIN');
     containerApp.style.opacity = 1;
-    displayMovements(currentAccount.movements);
+    displayMovements(currentAccount);
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
@@ -177,7 +219,6 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginPin;
   }
 });
-
 //////Transfer Action////////
 
 btnTransfer.addEventListener('click', function (e) {
@@ -193,14 +234,31 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.username !== currentAccount.username
   ) {
     currentAccount.movements.push(-transferAmount);
+    currentAccount.movementsDates.push(new Date());
+    transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-    displayMovements(currentAccount.movements);
+    displayMovements(currentAccount);
 
     displaySummary(currentAccount);
     displayBalance(currentAccount);
   }
   inputTransferTo.value = inputTransferAmount.value = '';
+});
+
+/////LOAN///////
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('loan');
+  const loanAmount = +inputLoanAmount.value;
+  if (loanAmount > 0) {
+    currentAccount.movements.push(loanAmount);
+    currentAccount.movementsDates.push(new Date());
+  }
+  displayMovements(currentAccount);
+  displaySummary(currentAccount);
+  displayBalance(currentAccount);
 });
 
 ///////CLOSE ACCOUNT //////////
@@ -209,16 +267,27 @@ btnClose.addEventListener('click', function (e) {
   console.log('close');
   if (
     inputCloseUsername.value === currentAccount.username &&
-    +(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(function (acc) {
       return acc.username === currentAccount.username;
     });
 
     console.log(index);
-    // accounts.splice(index,1)
+    accounts.splice(index, 1);
+    inputCloseUsername.value = inputClosePin.value = '';
+    containerApp.style.opacity = 0;
   }
 });
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
+});
+
+////////D  A   T   E////////////////
 
 const now = new Date();
 
@@ -231,3 +300,4 @@ const minute = `${now.getMinutes()}`.padStart(2, 0);
 // console.log(day, +month, +year, hour, +minute);
 
 labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minute} `;
+
