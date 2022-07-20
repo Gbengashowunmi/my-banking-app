@@ -256,7 +256,7 @@ btnLoan.addEventListener('click', function (e) {
     currentAccount.movements.push(loanAmount);
     currentAccount.movementsDates.push(new Date());
   }
-  containerMovements.insertAdjacentHTML('afterbegin', html);
+displaySummary(currentAccount);
   displaySummary(currentAccount);
   displayBalance(currentAccount);
 });
