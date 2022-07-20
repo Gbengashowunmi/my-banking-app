@@ -111,7 +111,7 @@ const displayMovements = function (account, sort = false) {
     ? account.movements.slice().sort((a, b) => a - b)
     : account.movements;
 
-  movs.forEach(function (mov, i) {
+  account.forEach(function (mov, i) {
     const transactionType = mov > 0 ? 'deposit' : 'withdrawal';
 
     const formattedMov = new Intl.NumberFormat('en-US').format(mov.toFixed(4));
@@ -238,7 +238,7 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-    displayMovements(currentAccount.movements);
+    displayMovements(currentAccount);
 
     displaySummary(currentAccount);
     displayBalance(currentAccount);
