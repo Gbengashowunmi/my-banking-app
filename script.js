@@ -56,6 +56,19 @@ const accountB = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:31:42.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT',
 };
 
 const accountC = {
@@ -83,6 +96,19 @@ const accountD = {
   movements: [430, 10000, 7000, 50, 90],
   interestRate: 1,
   pin: 4444,
+
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:31:42.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT',
 };
 // console.log(accountC);
 const accounts = [accountA, accountB, accountC, accountD];
@@ -135,7 +161,6 @@ const displayMovements = function (account, sort = false) {
 };
 
 ////////////////////////////////////
-// console.log(accountA.movements);
 
 ///////////DISPLAY INCOME/OUT/INTEREST///////////
 const displaySummary = function (account) {
@@ -193,16 +218,30 @@ const displayBalance = function (account) {
   // console.log(balance);
   labelBalance.textContent = `₦${formattedBalance}`;
 };
-////////////////////////////////////////////////
-//Updating the UI
-const updateUI = function (acc) {
-  displayMovements(acc);
-  displaySummary(acc);
-  displayBalance(acc);
+
+//////TIMEOUT/////////
+const startLogOutTimer = function () {
+  const tick = () => {
+    const min = `${Math.trunc(time / 60)}`.padStart(2, 0);
+    const sec = `${time % 60}`.padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+
+    if (time === 0) {
+      clearInterval(timer);
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = 'Have an account? Sign in';
+    }
+    time--;
+  };
+  let time = 360;
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
 };
 
 ////////////LOGIN ACTION//////////////////
-let currentAccount;
+let currentAccount, timer;
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
@@ -212,30 +251,39 @@ btnLogin.addEventListener('click', function (e) {
     return acc.username === inputLoginUsername.value;
   });
 
-  // console.log(currentAccount);
+  //alert empty input url
+  if (inputLoginUsername.value === '' && inputLoginPin.value === '')
+    alert('please enter login details');
+  else if (inputLoginUsername.value === '') alert('please enter Username');
+  else if (inputLoginPin.value === '') alert('please enter user Pin');
 
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
-    // console.log('LOGIN');
     containerApp.style.opacity = 1;
-    
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
+    displayMovements(currentAccount);
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
-    
-    updateUI(currentAccount);
+    displaySummary(currentAccount);
+    displayBalance(currentAccount);
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin;
   }
 });
-//////Transfer Action////////
 
+//////Transfer Action////////
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const transferAmount = +inputTransferAmount.value;
   const transferToUser = accounts.find(function (acc) {
     return acc.username === inputTransferTo.value;
   });
-  console.log(transferToUser, transferAmount, currentAccount.balance);
+  if (transferAmount.value === '' && transferToUser.value === '')
+    alert('please enter transfer details');
+  else if (transferAmount.value === '') alert('please enter Receiver details');
+  else if (transferToUser.value === '') alert('please enter amount');
   if (
     transferAmount > 0 &&
     currentAccount.balance >= transferAmount &&
@@ -246,9 +294,14 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-    updateUI(currentAccount);
+    displayMovements(currentAccount);
+
+    displaySummary(currentAccount);
+    displayBalance(currentAccount);
   }
   inputTransferTo.value = inputTransferAmount.value = '';
+  clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
 /////LOAN///////
@@ -257,11 +310,21 @@ btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   console.log('loan');
   const loanAmount = +inputLoanAmount.value;
+
+  if (loanAmount.value === '') alert('please enter loan amount');
+
   if (loanAmount > 0) {
-    currentAccount.movements.push(loanAmount);
-    currentAccount.movementsDates.push(new Date());
+    setTimeout(() => {
+      currentAccount.movements.push(loanAmount);
+      currentAccount.movementsDates.push(new Date());
+      displayMovements(currentAccount);
+      displaySummary(currentAccount);
+      displayBalance(currentAccount);
+    }, 2000);
   }
-updateUI(currentAccount);
+  inputLoanAmount.value = '';
+  clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
 ///////CLOSE ACCOUNT //////////
@@ -299,8 +362,6 @@ const month = `${now.getMonth() + 1}`.padStart(2, 0);
 const year = now.getFullYear();
 const hour = `${now.getHours()}`.padStart(2, 0);
 const minute = `${now.getMinutes()}`.padStart(2, 0);
-
-// console.log(day, +month, +year, hour, +minute);
+const seconds = `${now.getSeconds()}`.padStart(2, 0);
 
 labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minute} `;
-
