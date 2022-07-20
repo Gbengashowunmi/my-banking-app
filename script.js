@@ -111,7 +111,7 @@ const displayMovements = function (account, sort = false) {
     ? account.movements.slice().sort((a, b) => a - b)
     : account.movements;
 
-  account.forEach(function (mov, i) {
+  movs.forEach(function (mov, i) {
     const transactionType = mov > 0 ? 'deposit' : 'withdrawal';
 
     const formattedMov = new Intl.NumberFormat('en-US').format(mov.toFixed(4));
