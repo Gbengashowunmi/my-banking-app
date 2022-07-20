@@ -238,7 +238,7 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-    containerMovements.insertAdjacentHTML('afterbegin', html);
+    displayMovements(currentAccount.movements);
 
     displaySummary(currentAccount);
     displayBalance(currentAccount);
