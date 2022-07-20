@@ -193,6 +193,14 @@ const displayBalance = function (account) {
   // console.log(balance);
   labelBalance.textContent = `₦${formattedBalance}`;
 };
+////////////////////////////////////////////////
+//Updating the UI
+const updateUI = function (acc) {
+  displayMovements(acc);
+  displaySummary(acc);
+  displayBalance(acc);
+};
+
 ////////////LOGIN ACTION//////////////////
 let currentAccount;
 
@@ -209,12 +217,12 @@ btnLogin.addEventListener('click', function (e) {
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     // console.log('LOGIN');
     containerApp.style.opacity = 1;
-    displayMovements(currentAccount);
+    
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
-    displaySummary(currentAccount);
-    displayBalance(currentAccount);
+    
+    updateUI(currentAccount);
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin;
   }
@@ -238,9 +246,7 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-    displayMovements(currentAccount);
-    displaySummary(currentAccount);
-    displayBalance(currentAccount);
+    updateUI(currentAccount);
   }
   inputTransferTo.value = inputTransferAmount.value = '';
 });
@@ -255,9 +261,7 @@ btnLoan.addEventListener('click', function (e) {
     currentAccount.movements.push(loanAmount);
     currentAccount.movementsDates.push(new Date());
   }
-displayMovements(currentAccount);
-  displaySummary(currentAccount);
-  displayBalance(currentAccount);
+updateUI(currentAccount);
 });
 
 ///////CLOSE ACCOUNT //////////
