@@ -238,7 +238,7 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-    displayMovements(currentAccount);
+    containerMovements.insertAdjacentHTML('afterbegin', html);
 
     displaySummary(currentAccount);
     displayBalance(currentAccount);
@@ -256,7 +256,7 @@ btnLoan.addEventListener('click', function (e) {
     currentAccount.movements.push(loanAmount);
     currentAccount.movementsDates.push(new Date());
   }
-  displayMovements(currentAccount);
+  containerMovements.insertAdjacentHTML('afterbegin', html);
   displaySummary(currentAccount);
   displayBalance(currentAccount);
 });
