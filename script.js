@@ -18,6 +18,7 @@ const labelTimer = document.querySelector('.timer');
 
 const labelLoginInformation = document.querySelector('.login_information');
 const containerApp = document.querySelector('.app');
+const labelTransactionNote = document.querySelector('.transaction_note');
 const containerMovements = document.querySelector('.movements');
 const operations = document.querySelector('.operations');
 
@@ -331,10 +332,19 @@ btnTransfer.addEventListener('click', function (e) {
   const transferToUser = accounts.find(function (acc) {
     return acc.username === inputTransferTo.value;
   });
-  if (transferAmount.value === '' && transferToUser.value === '')
-    alert('please enter transfer details');
-  else if (transferAmount.value === '') alert('please enter Receiver details');
-  else if (transferToUser.value === '') alert('please enter amount');
+  if (inputTransferAmount.value === '' && inputTransferTo.value === '') {
+    labelTransactionNote.classList.add('error')
+    labelTransactionNote.innerHTML = 'Please, Enter Transfer Details';
+    setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+  } else if (inputTransferAmount.value === '') {
+    labelTransactionNote.classList.add('error')
+    labelTransactionNote.innerHTML = 'Please, Enter Amount';
+    setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+  } else if (inputTransferTo.value === '') {
+    labelTransactionNote.classList.add('error')
+    labelTransactionNote.innerHTML = "Please, enter receiver's details";
+    setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+  }
   if (
     transferAmount > 0 &&
     currentAccount.balance >= transferAmount &&
@@ -345,14 +355,16 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
-      containerMovements.innerHTML =''
+    containerMovements.innerHTML = '';
 
     displayMovements(currentAccount);
-
+    labelTransactionNote.classList.add('success')
+    labelTransactionNote.innerHTML = 'Transfer Succesful';
+    setTimeout(() => (labelTransactionNote.classList.remove('success')), 3000);
     displaySummary(currentAccount);
     displayBalance(currentAccount);
+    inputTransferTo.value = inputTransferAmount.value = '';
   }
-  inputTransferTo.value = inputTransferAmount.value = '';
   clearInterval(timer);
   timer = startLogOutTimer();
 });
@@ -364,7 +376,11 @@ btnLoan.addEventListener('click', function (e) {
 
   const loanAmount = +inputLoanAmount.value;
 
-  // if (loanAmount.value === '') alert('please enter loan amount');
+  if (inputLoanAmount.value === '') {
+    labelTransactionNote.classList.add('error')
+      labelTransactionNote.innerHTML = 'Please, enter Amount';
+      setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+  };
 
   if (loanAmount > 0) {
     setTimeout(() => {
@@ -374,8 +390,10 @@ btnLoan.addEventListener('click', function (e) {
       console.log(
         currentAccount.movements[currentAccount.movements.length - 1]
       );
-      containerMovements.innerHTML =''
-
+      containerMovements.innerHTML = '';
+      labelTransactionNote.classList.add('success')
+      labelTransactionNote.innerHTML = 'Account Creditted';
+      setTimeout(() => (labelTransactionNote.classList.remove('success')), 3000);
       displayMovements(currentAccount);
       displaySummary(currentAccount);
       displayBalance(currentAccount);
@@ -408,7 +426,7 @@ btnClose.addEventListener('click', function (e) {
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
-  containerMovements.innerHTML =''
+  containerMovements.innerHTML = '';
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
