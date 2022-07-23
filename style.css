@@ -45,8 +45,7 @@ nav {
   display: flex;
   height: 50px;
   align-items: auto;
-    z-index: 1;
-
+  z-index: 1;
 }
 
 .login__input {
@@ -175,6 +174,28 @@ nav {
   font-weight: 400;
 }
 
+.transaction_note {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 60px;
+  width: 40%;
+  height: 15%;
+  opacity: 0;
+  border-radius: 10px;
+  font-size: xx-large;
+  color: white;
+}
+.transaction_note.error {
+  opacity: 2;
+  background-color: rgba(255, 99, 71, 0.966);
+}
+.transaction_note.success {
+  opacity: 2;
+  background-color: rgba(6, 107, 23, 0.925);
+}
+
 /* MOVEMENTS */
 .movements_summary_operations {
   display: flex;
@@ -191,7 +212,6 @@ nav {
   z-index: 1;
   transition: 2s;
   /* position: absolute; */
-
 }
 .movements {
   background-color: #fff;
@@ -201,7 +221,6 @@ nav {
   height: 80vh;
   overflow: scroll;
   max-width: 100%;
-
 }
 
 .movements__row {
@@ -243,9 +262,8 @@ nav {
 
 /* SUMMARY */
 .summary {
-  grid-row: 5 / 6;
   display: flex;
-  align-items: baseline;
+  justify-content: center;
   padding: 0 0.3rem;
   margin-top: 1rem;
 }
@@ -377,8 +395,11 @@ h2 {
 }
 
 .logout-timer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
   padding: 0 0.3rem;
-  margin-top: 1.9rem;
+  /* margin-top: 1.9rem; */
   text-align: right;
   font-size: 1.25rem;
 }
@@ -408,9 +429,8 @@ h2 {
     transition: 1.5s;
   }
   nav {
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
-    /* background-color: red; */
   }
   .welcome {
     font-size: 1.5rem;
@@ -420,9 +440,9 @@ h2 {
 
   .hamburger {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 30px;
+    top: 15px;
+    left: 5px;
+    width: 25px;
     cursor: pointer;
     transition: 0.6s;
     z-index: 10;
@@ -437,6 +457,30 @@ h2 {
     transform: translateY(-2px) rotate(90deg);
     transition: 0.6s;
   }
+
+  .transaction_note {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    top: 60px;
+    width: 70%;
+    height: 15%;
+    z-index: 200;
+    opacity: 0;
+    border-radius: 10px;
+    font-size: xx-large;
+    color: white;
+  }
+  .transaction_note.error {
+    opacity: 2;
+    background-color: rgba(255, 99, 71, 0.966);
+  }
+  .transaction_note.success {
+    opacity: 2;
+    background-color: rgba(6, 107, 23, 0.925);
+  }
   .app {
     /* background-color: blue; */
     width: 100%;
@@ -448,7 +492,7 @@ h2 {
     margin: auto;
     position: absolute;
   }
-  
+
   .movements {
     border-radius: 1rem;
     max-width: 100%;
@@ -457,14 +501,14 @@ h2 {
 
   .operations {
     position: absolute;
-    right: 0;
+    /* left: 0; */
     top: 0;
     width: 80%;
     height: fit-content;
     border-radius: 15px;
     border: solid 1px rgb(0, 217, 255);
     /* left: 50%; */
-    transform: translateX(100%);
+    transform: translateX(-100%);
     transition: 2s;
     opacity: 0;
     /* display: none; */
@@ -474,7 +518,7 @@ h2 {
   .operations.active {
     width: 80%;
     transition: 2s;
-    transform: translateX(8%);
+    transform: translateX(-5%);
     opacity: 1;
   }
 }
