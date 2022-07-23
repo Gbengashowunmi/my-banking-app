@@ -5,6 +5,10 @@
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
+const overlay = document.querySelector('.overlay');
+const labelUsernameError = document.querySelector('.username-error-message');
+const labelPinError = document.querySelector('.pin-error-message');
+
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
 const labelSumIn = document.querySelector('.summary__value--in');
@@ -12,9 +16,12 @@ const labelSumOut = document.querySelector('.summary__value--out');
 const labelSumInterest = document.querySelector('.summary__value--interest');
 const labelTimer = document.querySelector('.timer');
 
+const labelLoginInformation = document.querySelector('.login_information');
 const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
+const operations = document.querySelector('.operations');
 
+const btnHamburger = document.querySelector('.hamburger');
 const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
@@ -132,6 +139,24 @@ username(accounts);
 // ]);
 
 ///////////DISPLAY MOVEMENTS/////////////
+const navToggle = () => {
+  btnHamburger.classList.toggle('active');
+  operations.classList.toggle('active');
+  overlay.classList.toggle('active');
+};
+////hamburger function
+btnHamburger.addEventListener('click', () => {
+  // navToggle();
+  btnHamburger.classList.toggle('active');
+  operations.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+overlay.addEventListener('click', () => {
+btnHamburger.classList.remove('active');
+  operations.classList.remove('active');
+  overlay.classList.remove('active');}
+);
+
 const displayMovements = function (account, sort = false) {
   const movs = sort
     ? account.movements.slice().sort((a, b) => a - b)
@@ -215,7 +240,7 @@ const displayBalance = function (account) {
   const formattedBalance = new Intl.NumberFormat('en-US').format(
     account.balance
   );
-  // console.log(balance);
+  // console.log(account.balance);
   labelBalance.textContent = `₦${formattedBalance}`;
 };
 
@@ -251,21 +276,38 @@ btnLogin.addEventListener('click', function (e) {
     return acc.username === inputLoginUsername.value;
   });
 
-  //alert empty input url
-  if (inputLoginUsername.value === '' && inputLoginPin.value === '')
-    alert('please enter login details');
-  else if (inputLoginUsername.value === '') alert('please enter Username');
-  else if (inputLoginPin.value === '') alert('please enter user Pin');
+  //error message empty input url
+  if (!currentAccount) {
+    labelUsernameError.style.opacity = 1;
+    labelUsernameError.textContent = 'Enter Valid Login details';
+    setTimeout(() => (labelUsernameError.textContent = ''), 2000);
+  }
+  if (inputLoginUsername.value === '' && inputLoginPin.value === '') {
+    labelUsernameError.style.opacity = 1;
+    labelUsernameError.textContent = 'Enter Login details';
+    setTimeout(() => (labelUsernameError.textContent = ''), 2000);
+  } else if (inputLoginUsername.value === '') {
+    labelUsernameError.textContent = 'Enter Username';
+    labelUsernameError.style.opacity = 1;
 
-  if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
+    setTimeout(() => (labelUsernameError.textContent = ''), 2000);
+  } else if (inputLoginPin.value === '') {
+    labelPinError.style.opacity = 1;
+
+    labelPinError.textContent = 'Enter Pin';
+    setTimeout(() => (labelPinError.textContent = ''), 2000);
+  } else if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     containerApp.style.opacity = 1;
+    labelLoginInformation.style.display = 'none';
+
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
-
+    btnHamburger.style.display = 'block'
     displayMovements(currentAccount);
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
+
     displaySummary(currentAccount);
     displayBalance(currentAccount);
     inputLoginUsername.value = inputLoginPin.value = '';
