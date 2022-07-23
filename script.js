@@ -59,7 +59,7 @@ const accountA = {
 };
 
 const accountB = {
-  owner: 'Hamdala Odunlami',
+  owner: 'Jasmine George',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -139,6 +139,8 @@ username(accounts);
 // ]);
 
 ///////////DISPLAY MOVEMENTS/////////////
+
+////NAV BAR/////
 const navToggle = () => {
   btnHamburger.classList.toggle('active');
   operations.classList.toggle('active');
@@ -150,18 +152,23 @@ btnHamburger.addEventListener('click', () => {
   btnHamburger.classList.toggle('active');
   operations.classList.toggle('active');
   overlay.classList.toggle('active');
+  clearInterval(timer);
+  timer = startLogOutTimer();
 });
 overlay.addEventListener('click', () => {
-btnHamburger.classList.remove('active');
+  btnHamburger.classList.remove('active');
   operations.classList.remove('active');
-  overlay.classList.remove('active');}
-);
+  overlay.classList.remove('active');
+  clearInterval(timer);
+  timer = startLogOutTimer();
+});
 
+///DISPLAY MOVEMENTS FUNCTION///
 const displayMovements = function (account, sort = false) {
   const movs = sort
     ? account.movements.slice().sort((a, b) => a - b)
     : account.movements;
-
+  console.log(movs);
   movs.forEach(function (mov, i) {
     const transactionType = mov > 0 ? 'deposit' : 'withdrawal';
 
@@ -185,9 +192,7 @@ const displayMovements = function (account, sort = false) {
   });
 };
 
-////////////////////////////////////
-
-///////////DISPLAY INCOME/OUT/INTEREST///////////
+////////DISPLAY INCOME/OUT/INTEREST////////
 const displaySummary = function (account) {
   /////income calculation
   const incomes = account.movements
@@ -232,7 +237,7 @@ const displaySummary = function (account) {
   labelSumInterest.textContent = `₦${Math.round(interest)}`;
 };
 
-//////calculate balance///////
+//////calculate balance function///////
 const displayBalance = function (account) {
   account.balance = account.movements.reduce(function (acc, mov) {
     return acc + mov;
@@ -244,7 +249,7 @@ const displayBalance = function (account) {
   labelBalance.textContent = `₦${formattedBalance}`;
 };
 
-//////TIMEOUT/////////
+//////TIMEOUT FUNCTION/////////
 const startLogOutTimer = function () {
   const tick = () => {
     const min = `${Math.trunc(time / 60)}`.padStart(2, 0);
@@ -256,16 +261,17 @@ const startLogOutTimer = function () {
       clearInterval(timer);
       containerApp.style.opacity = 0;
       labelWelcome.textContent = 'Have an account? Sign in';
+      btnHamburger.style.display = 'none';
     }
     time--;
   };
-  let time = 360;
+  let time = 240;
   tick();
   const timer = setInterval(tick, 1000);
   return timer;
 };
 
-////////////LOGIN ACTION//////////////////
+////////////LOGIN HANDLER//////////////////
 let currentAccount, timer;
 
 btnLogin.addEventListener('click', function (e) {
@@ -302,7 +308,7 @@ btnLogin.addEventListener('click', function (e) {
 
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
-    btnHamburger.style.display = 'block'
+    btnHamburger.style.display = 'block';
     displayMovements(currentAccount);
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
@@ -315,7 +321,7 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
-//////Transfer Action////////
+//////TRANSFER HANDLER////////
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const transferAmount = +inputTransferAmount.value;
@@ -346,20 +352,28 @@ btnTransfer.addEventListener('click', function (e) {
   timer = startLogOutTimer();
 });
 
-/////LOAN///////
-
+/////LOAN HANDLER///////
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   console.log('loan');
+
   const loanAmount = +inputLoanAmount.value;
 
-  if (loanAmount.value === '') alert('please enter loan amount');
+  // if (loanAmount.value === '') alert('please enter loan amount');
 
   if (loanAmount > 0) {
     setTimeout(() => {
       currentAccount.movements.push(loanAmount);
+      // console.log(currentAccount.movements);
       currentAccount.movementsDates.push(new Date());
+      console.log(
+        currentAccount.movements[currentAccount.movements.length - 1]
+      );
+
       displayMovements(currentAccount);
+
+      console.log(currentAccount.movements);
+
       displaySummary(currentAccount);
       displayBalance(currentAccount);
     }, 2000);
@@ -369,7 +383,7 @@ btnLoan.addEventListener('click', function (e) {
   timer = startLogOutTimer();
 });
 
-///////CLOSE ACCOUNT //////////
+///////CLOSE ACCOUNT HANDLER //////////
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
   console.log('close');
