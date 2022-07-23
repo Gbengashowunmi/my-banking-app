@@ -169,6 +169,8 @@ const displayMovements = function (account, sort = false) {
     ? account.movements.slice().sort((a, b) => a - b)
     : account.movements;
   console.log(movs);
+  // containerMovements.innerHTML =''
+
   movs.forEach(function (mov, i) {
     const transactionType = mov > 0 ? 'deposit' : 'withdrawal';
 
@@ -195,6 +197,7 @@ const displayMovements = function (account, sort = false) {
 ////////DISPLAY INCOME/OUT/INTEREST////////
 const displaySummary = function (account) {
   /////income calculation
+  // containerMovements.innerHTML =''
   const incomes = account.movements
     .filter(function (mov) {
       return mov > 0;
@@ -342,6 +345,8 @@ btnTransfer.addEventListener('click', function (e) {
     transferToUser.movementsDates.push(new Date());
 
     transferToUser.movements.push(transferAmount);
+      containerMovements.innerHTML =''
+
     displayMovements(currentAccount);
 
     displaySummary(currentAccount);
@@ -369,11 +374,9 @@ btnLoan.addEventListener('click', function (e) {
       console.log(
         currentAccount.movements[currentAccount.movements.length - 1]
       );
+      containerMovements.innerHTML =''
 
       displayMovements(currentAccount);
-
-      console.log(currentAccount.movements);
-
       displaySummary(currentAccount);
       displayBalance(currentAccount);
     }, 2000);
@@ -405,6 +408,7 @@ btnClose.addEventListener('click', function (e) {
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
+  containerMovements.innerHTML =''
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
