@@ -19,6 +19,7 @@ body {
   height: 100vh;
   padding: 2rem;
   width: 100%;
+  position: relative;
   overflow-x: hidden;
 }
 
@@ -123,7 +124,7 @@ nav {
 .app {
   /* background-color: blue; */
   width: 90%;
-  /* position: relative; */
+  position: relative;
   /* max-width: 100rem; */
   /* margin: 4rem auto; */
   /* display: grid; */
@@ -178,6 +179,7 @@ nav {
 .movements_summary_operations {
   display: flex;
   justify-content: space-between;
+  /* align-items: center; */
   /* gap: 20%; */
   width: 100%;
   /* background-color: red; */
@@ -186,6 +188,10 @@ nav {
 .movements_and_summary {
   width: 55%;
   /* background-color: red; */
+  z-index: 1;
+  transition: 2s;
+  /* position: absolute; */
+
 }
 .movements {
   background-color: #fff;
@@ -195,6 +201,7 @@ nav {
   height: 80vh;
   overflow: scroll;
   max-width: 100%;
+
 }
 
 .movements__row {
@@ -278,7 +285,7 @@ nav {
   width: 50%;
   border-radius: 10px;
   padding: 3rem 4rem;
-  margin: 3%;
+  margin: 10px;
 }
 
 .operations {
@@ -286,7 +293,8 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  /* justify-content: space-around; */
+
   /* background-color: red; */
 }
 
@@ -379,9 +387,10 @@ h2 {
   font-weight: 600;
 }
 
-@media (max-width: 958px) {
+@media (max-width: 800px) {
   body {
     overflow-x: hidden;
+    /* width: 100vw; */
   }
   .overlay {
     position: absolute;
@@ -400,6 +409,8 @@ h2 {
   }
   nav {
     justify-content: space-around;
+    width: 100%;
+    /* background-color: red; */
   }
   .welcome {
     font-size: 1.5rem;
@@ -410,7 +421,7 @@ h2 {
   .hamburger {
     position: absolute;
     top: 20px;
-    right: 10px;
+    right: 20px;
     width: 30px;
     cursor: pointer;
     transition: 0.6s;
@@ -435,29 +446,35 @@ h2 {
   .movements_and_summary {
     width: 100%;
     margin: auto;
+    position: absolute;
   }
+  
   .movements {
     border-radius: 1rem;
     max-width: 100%;
+    overflow-y: scroll;
   }
 
   .operations {
     position: absolute;
-    width: 50%;
+    right: 0;
+    top: 0;
+    width: 80%;
     height: fit-content;
     border-radius: 15px;
     border: solid 1px rgb(0, 217, 255);
-    left: 50%;
+    /* left: 50%; */
     transform: translateX(100%);
     transition: 2s;
     opacity: 0;
+    /* display: none; */
     background-color: rgb(212, 241, 247);
-    z-index: 100;
+    z-index: 5;
   }
   .operations.active {
-    width: 50%;
+    width: 80%;
     transition: 2s;
-    transform: translateX(0%);
+    transform: translateX(8%);
     opacity: 1;
   }
 }
