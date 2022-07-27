@@ -5,6 +5,7 @@
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
+const body = document.querySelector('body');
 const overlay = document.querySelector('.overlay');
 const labelUsernameError = document.querySelector('.username-error-message');
 const labelPinError = document.querySelector('.pin-error-message');
@@ -29,6 +30,7 @@ const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
 const btnSort = document.querySelector('.btn--sort');
 
+const LoginForm = document.querySelector('.login-form');
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
 const inputTransferTo = document.querySelector('.form__input--to');
@@ -266,6 +268,8 @@ const startLogOutTimer = function () {
       containerApp.style.opacity = 0;
       labelWelcome.textContent = 'Have an account? Sign in';
       btnHamburger.style.display = 'none';
+      LoginForm.style.display= 'block'
+
     }
     time--;
   };
@@ -299,7 +303,6 @@ btnLogin.addEventListener('click', function (e) {
   } else if (inputLoginUsername.value === '') {
     labelUsernameError.textContent = 'Enter Username';
     labelUsernameError.style.opacity = 1;
-
     setTimeout(() => (labelUsernameError.textContent = ''), 2000);
   } else if (inputLoginPin.value === '') {
     labelPinError.style.opacity = 1;
@@ -308,12 +311,15 @@ btnLogin.addEventListener('click', function (e) {
     setTimeout(() => (labelPinError.textContent = ''), 2000);
   } else if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     containerApp.style.opacity = 1;
-    labelLoginInformation.style.display = 'none';
+    // labelLoginInformation.style.display = 'none';
 
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
     btnHamburger.style.display = 'block';
+    LoginForm.style.display= 'none';
+    body.style.overflow = 'scroll';
     displayMovements(currentAccount);
+    console.log(currentAccount);
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
@@ -333,17 +339,17 @@ btnTransfer.addEventListener('click', function (e) {
     return acc.username === inputTransferTo.value;
   });
   if (inputTransferAmount.value === '' && inputTransferTo.value === '') {
-    labelTransactionNote.classList.add('error')
+    labelTransactionNote.classList.add('error');
     labelTransactionNote.innerHTML = 'Please, Enter Transfer Details';
-    setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+    setTimeout(() => labelTransactionNote.classList.remove('error'), 3000);
   } else if (inputTransferAmount.value === '') {
-    labelTransactionNote.classList.add('error')
+    labelTransactionNote.classList.add('error');
     labelTransactionNote.innerHTML = 'Please, Enter Amount';
-    setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+    setTimeout(() => labelTransactionNote.classList.remove('error'), 3000);
   } else if (inputTransferTo.value === '') {
-    labelTransactionNote.classList.add('error')
+    labelTransactionNote.classList.add('error');
     labelTransactionNote.innerHTML = "Please, enter receiver's details";
-    setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
+    setTimeout(() => labelTransactionNote.classList.remove('error'), 3000);
   }
   if (
     transferAmount > 0 &&
@@ -358,9 +364,9 @@ btnTransfer.addEventListener('click', function (e) {
     containerMovements.innerHTML = '';
 
     displayMovements(currentAccount);
-    labelTransactionNote.classList.add('success')
+    labelTransactionNote.classList.add('success');
     labelTransactionNote.innerHTML = 'Transfer Succesful';
-    setTimeout(() => (labelTransactionNote.classList.remove('success')), 3000);
+    setTimeout(() => labelTransactionNote.classList.remove('success'), 3000);
     displaySummary(currentAccount);
     displayBalance(currentAccount);
     inputTransferTo.value = inputTransferAmount.value = '';
@@ -377,10 +383,10 @@ btnLoan.addEventListener('click', function (e) {
   const loanAmount = +inputLoanAmount.value;
 
   if (inputLoanAmount.value === '') {
-    labelTransactionNote.classList.add('error')
-      labelTransactionNote.innerHTML = 'Please, enter Amount';
-      setTimeout(() => (labelTransactionNote.classList.remove('error')), 3000);
-  };
+    labelTransactionNote.classList.add('error');
+    labelTransactionNote.innerHTML = 'Please, enter Amount';
+    setTimeout(() => labelTransactionNote.classList.remove('error'), 3000);
+  }
 
   if (loanAmount > 0) {
     setTimeout(() => {
@@ -391,9 +397,9 @@ btnLoan.addEventListener('click', function (e) {
         currentAccount.movements[currentAccount.movements.length - 1]
       );
       containerMovements.innerHTML = '';
-      labelTransactionNote.classList.add('success')
+      labelTransactionNote.classList.add('success');
       labelTransactionNote.innerHTML = 'Account Creditted';
-      setTimeout(() => (labelTransactionNote.classList.remove('success')), 3000);
+      setTimeout(() => labelTransactionNote.classList.remove('success'), 3000);
       displayMovements(currentAccount);
       displaySummary(currentAccount);
       displayBalance(currentAccount);
