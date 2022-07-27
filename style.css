@@ -21,81 +21,86 @@ body {
   width: 100%;
   position: relative;
   overflow: hidden;
-
 }
 
 img.purple {
   position: fixed;
-  top: 10vh;
-  left: 30vw;
-  width: 30vh;
+  top: 5%;
+  left: 28%;
+  width: 15%;
   height: auto;
   z-index: -1;
 }
 img.purple1 {
   position: fixed;
-  top: 60vh;
-  right: 87vw;
-  width: 80px;
+  top: 20%;
+  left: 87%;
+  width: 10%;
   height: auto;
   z-index: -1;
 }
 img.purple2 {
   position: fixed;
-  top: 70;
-  left: 15;
-  width: 10vh;
+  top: 35%;
+  left: 10%;
+  width: 20%;
   height: auto;
   z-index: -1;
 }
 
 img.black {
   position: fixed;
-  top: 60vh;
-  left: 65vw;
-  width: 30vh;
+  top: 60%;
+  left: 65%;
+  width: 10%;
   height: auto;
   z-index: -1;
 }
 img.blue2 {
   position: fixed;
-  top: 80vh;
-  right: 15vh;
-  width: 3vh;
+  top: 80%;
+  right: 15%;
+  width: 3%;
   height: auto;
   z-index: -1;
 }
 img.blue {
   position: fixed;
   top: 6%;
-
   left: 58%;
-  width: 30px;
+  width: 3%;
   height: auto;
   z-index: -1;
 }
 img.gold {
   position: fixed;
-  top: 60vh;
-  left: 40vw;
-  width: 30vh;
+  top: 70%;
+  left: 40%;
+  width: 20%;
   height: auto;
   z-index: -1;
 }
 
+.form-container{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: red; */
+}
 .login-form {
-  width: 250px;
-  height: 450px;
+  width: fit-content;
+  height: fit-content;
+  padding: 6% 5%;
   color: white;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.089);
   border: solid 1px rgba(255, 251, 251, 0.342);
   box-shadow: 2px 4px 4px rgba(255, 255, 255, 0.137);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
-  margin-top: 2%;
-  margin-left: 40%;
   text-align: center;
   justify-content: center;
 }
@@ -130,7 +135,6 @@ form.login {
   padding: 20px;
   justify-content: center;
   gap: 10px;
-
 }
 
 .login__input {
@@ -146,13 +150,12 @@ form.login {
 }
 
 .login__btn {
-  width: 90%;
-  height: 30px;
+  /* width: 90%; */
+  padding: 10px 30px;
   background-image: linear-gradient(to top left, #680953, #a519c9);
   cursor: pointer;
   border: none;
   transition: all 0.3s;
-  color: inherit;
   border-radius: 5px;
   color: white;
 }
@@ -248,7 +251,7 @@ form.login {
 .balance__date {
   font-size: 1.2rem;
   color: rgb(255, 255, 255);
-letter-spacing: 2px;
+  letter-spacing: 2px;
   /* background-color: navy; */
 }
 
@@ -406,7 +409,8 @@ letter-spacing: 2px;
   height: fit-content;
   width: 80%;
   box-shadow: 2px 4px 4px rgba(20, 5, 5, 0.61);
-  backdrop-filter: blur(5px);}
+  backdrop-filter: blur(5px);
+}
 
 .operation--loan {
   background-image: linear-gradient(to top left, #394bb3, #5dbce123);
@@ -423,7 +427,19 @@ letter-spacing: 2px;
   box-shadow: 2px 4px 4px rgba(20, 5, 5, 0.61);
   backdrop-filter: blur(10px);
 }
+.log-out{
+  padding:10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: solid 2px white;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
 
+.log-out:hover{
+  background-color: rgb(180, 6, 6);
+}
 h2 {
   margin-bottom: 1.5rem;
   font-size: 1.7rem;
@@ -504,8 +520,6 @@ h2 {
     width: 100%;
   }
 
-
-
   body {
     font-family: 'Poppins', sans-serif;
     color: rgb(0, 0, 0);
@@ -518,9 +532,8 @@ h2 {
     width: 100%;
     position: relative;
     overflow: hidden;
-  
   }
-  
+
   img.purple {
     position: fixed;
     top: 10vh;
@@ -545,7 +558,7 @@ h2 {
     height: auto;
     z-index: -1;
   }
-  
+
   img.black {
     position: fixed;
     top: 68vh;
@@ -565,7 +578,7 @@ h2 {
   img.blue {
     position: fixed;
     top: 6%;
-  
+
     left: 58%;
     width: 30px;
     height: auto;
@@ -579,7 +592,7 @@ h2 {
     height: auto;
     z-index: -1;
   }
-  
+
   .login-form {
     width: 250px;
     height: 450px;
@@ -591,13 +604,10 @@ h2 {
     backdrop-filter: blur(3px);
     display: flex;
     flex-direction: column;
-    margin-top: 2%;
-    margin-left: 30%;
-    /* margin-right: 50%; */
     text-align: center;
     justify-content: center;
   }
-  
+
   nav {
     display: flex;
     width: 100%;
@@ -606,7 +616,7 @@ h2 {
     padding: 0 1.6rem;
     /* background-color: blue; */
   }
-  
+
   .welcome {
     font-size: 1.6rem;
     font-weight: 500;
@@ -615,11 +625,11 @@ h2 {
     font-size: 1.6rem;
     font-weight: 500;
   }
-  
+
   /* .logo {
     height: 5.25rem;
   } */
-  
+
   form.login {
     display: flex;
     flex-direction: column;
@@ -628,7 +638,6 @@ h2 {
     padding: 20px;
     justify-content: center;
     gap: 10px;
-  
   }
 
   /* .......new editing........... */
@@ -639,7 +648,7 @@ h2 {
     opacity: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(73, 167, 162, 0.685);
+    background-color: #721c8894;
     transition: 1.5s;
   }
   .overlay.active {
@@ -732,7 +741,7 @@ h2 {
     align-items: center;
     /* font-size: 1.2rem; */
     justify-content: space-between;
-    gap:10%;
+    gap: 10%;
     /* background-color: red; */
   }
   .current_balance_date {
@@ -749,11 +758,11 @@ h2 {
     /* background-color: blue; */
     /* margin-bottom: -0.2rem; */
   }
-  
+
   .balance__date {
     font-size: 1rem;
     color: rgb(255, 255, 255);
-  letter-spacing: 2px;
+    letter-spacing: 2px;
     /* background-color: navy; */
   }
   .operations {
@@ -763,14 +772,14 @@ h2 {
     width: 80%;
     height: fit-content;
     border-radius: 15px;
-    border: solid 1px rgb(0, 217, 255);
+    border: solid 1px white;
     /* left: 50%; */
     transform: translateX(-100%);
     transition: 2s;
     opacity: 0;
     /* display: none; */
     background-image: linear-gradient(to top left, #f05ed0, #721c88);
-        z-index: 5;
+    z-index: 5;
   }
   .operations.active {
     width: 80%;
@@ -778,4 +787,5 @@ h2 {
     transform: translateX(-5%);
     opacity: 1;
   }
+  
 }
