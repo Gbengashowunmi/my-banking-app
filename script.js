@@ -28,9 +28,10 @@ const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
+const btnLogOut = document.querySelector('.log-out')
 const btnSort = document.querySelector('.btn--sort');
 
-const LoginForm = document.querySelector('.login-form');
+const formContainer = document.querySelector('.form-container');
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
 const inputTransferTo = document.querySelector('.form__input--to');
@@ -265,10 +266,12 @@ const startLogOutTimer = function () {
 
     if (time === 0) {
       clearInterval(timer);
-      containerApp.style.opacity = 0;
+      containerApp.style.display = 'none';
       labelWelcome.textContent = 'Have an account? Sign in';
       btnHamburger.style.display = 'none';
-      LoginForm.style.display= 'block'
+      formContainer.style.display= 'flex'
+      overlay.classList.remove('active');
+
 
     }
     time--;
@@ -316,8 +319,14 @@ btnLogin.addEventListener('click', function (e) {
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
     btnHamburger.style.display = 'block';
-    LoginForm.style.display= 'none';
+    containerApp.style.display = 'block';
+
+    formContainer.style.display= 'none';
     body.style.overflow = 'scroll';
+    operations.classList.remove('active');
+    btnHamburger.classList.remove('active');
+
+
     displayMovements(currentAccount);
     console.log(currentAccount);
     labelWelcome.textContent = `Welcome back, ${
@@ -429,6 +438,18 @@ btnClose.addEventListener('click', function (e) {
   }
 });
 
+////LOG OUT/////
+btnLogOut.addEventListener('click', (e)=>{
+  e.preventDefault();
+  containerApp.style.display = 'none';
+  labelWelcome.textContent = 'Have an account? Sign in';
+  btnHamburger.style.display = 'none';
+  formContainer.style.display= 'flex';
+  overlay.classList.remove('active');
+
+
+
+})
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
