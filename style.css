@@ -105,8 +105,7 @@ img.gold {
   justify-content: center;
 }
 
-input,
-textarea {
+input {
   -webkit-user-select: text;
   z-index:100;
 }
