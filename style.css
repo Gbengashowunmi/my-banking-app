@@ -99,6 +99,7 @@ img.gold {
   border: solid 1px rgba(255, 251, 251, 0.342);
   box-shadow: 2px 4px 4px rgba(255, 255, 255, 0.137);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -109,6 +110,8 @@ input {
   -webkit-user-select: text;
   z-index:100;
 }
+
+ 
 
 nav {
   display: flex;
