@@ -108,9 +108,7 @@ img.gold {
 input,
 textarea {
   -webkit-user-select: text;
-  -khtml-user-select: text;
-  user-select: text;
-  -moz-user-select: text;
+  z-index:100;
 }
 
 nav {
